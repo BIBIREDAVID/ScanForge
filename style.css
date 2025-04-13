@@ -1,0 +1,71 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f7f9fb;
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}
+
+.container {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 8px 8px 20px 0px rgba(85, 85, 85, 0.08);
+  padding: 20px;
+  max-width: 400px;
+  width: 100%;
+}
+
+h1 {
+  text-align: center;
+  color: #222;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.tabs button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #eaeaea;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.tab {
+  display: none;
+}
+
+.active-tab {
+  display: block;
+}
+
+input[type="text"], select, input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+#qrcode, #scanResult {
+  text-align: center;
+  margin-top: 20px;
+}

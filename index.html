@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QR-HUB</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>QR-HUB</h1>
+    <div class="tabs">
+      <button onclick="showTab('generator')">Generate QR</button>
+      <button onclick="showTab('scanner')">Scan QR</button>
+    </div>
+
+    <div id="generator" class="tab active-tab">
+      <select id="qrType" onchange="toggleInputType()">
+        <option value="url">URL</option>
+        <option value="text">Text</option>
+        <option value="pdf">PDF</option>
+      </select>
+
+      <input type="text" id="urlInput" placeholder="Enter URL or Text" />
+      <input type="file" id="pdfInput" accept="application/pdf" style="display: none;" />
+
+      <button onclick="generateQRCode()">Generate QR</button>
+      <p id="error"></p>
+      <div id="qrcode"></div>
+      <a id="downloadBtn" style="display:none;" download="qr-code.png">🔽 Download QR</a>
+    </div>
+
+    <div id="scanner" class="tab">
+      <div id="reader" style="width: 300px; height: 300px;"></div>
+      <button onclick="startCamera()">Request Camera Permissions</button>
+      <p>or</p>
+      <input type="file" accept="image/*" onchange="decodeImage(event)" />
+
+      <p id="scanResult"></p>
+      <button id="copyBtn" onclick="copyToClipboard()" style="display: none;">📋 Copy to Clipboard</button>
+      <p id="cameraError" style="color: red;"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
