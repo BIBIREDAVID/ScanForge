@@ -85,6 +85,7 @@ function startCamera() {
   const scanResult = document.getElementById("scanResult");
   const cameraError = document.getElementById("cameraError");
   const copyBtn = document.getElementById("copyBtn");
+
   cameraError.textContent = "";
   scanResult.innerHTML = "";
   copyBtn.style.display = "none";
@@ -127,9 +128,7 @@ function displayScanResult(content) {
     link.href = content;
     link.target = "_blank";
     link.textContent = "🔗 Preview QR content";
-    link.style.display = "block";
-    link.style.marginTop = "10px";
-    link.style.color = "#4CAF50";
+    link.id = "previewLink";
     scanResult.appendChild(link);
   }
 }
@@ -137,7 +136,7 @@ function displayScanResult(content) {
 function copyToClipboard() {
   const content = document.getElementById("copyBtn").getAttribute("data-copy");
   navigator.clipboard.writeText(content).then(() => {
-    alert("Copied to clipboard!");
+    showToast("Copied to clipboard!");
   });
 }
 
@@ -160,4 +159,20 @@ function decodeImage(event) {
       scanResult.innerHTML = "Could not read QR code from image.";
       console.error(err);
     });
+}
+
+// Toast Message Handling
+function showToast(message) {
+  let toast = document.getElementById("toast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "toast";
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  toast.className = "show";
+
+  setTimeout(() => {
+    toast.className = toast.className.replace("show", "");
+  }, 3000);
 }

@@ -7,15 +7,21 @@
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://unpkg.com/html5-qrcode"></script>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>ScanForge</h1>
+    
     <div class="tabs">
       <button onclick="showTab('generator')">Generate QR</button>
       <button onclick="showTab('scanner')">Scan QR</button>
     </div>
 
+    <!-- QR Generator -->
     <div id="generator" class="tab active-tab">
       <select id="qrType" onchange="toggleInputType()">
         <option value="url">URL</option>
@@ -32,6 +38,7 @@
       <a id="downloadBtn" style="display:none;" download="qr-code.png">🔽 Download QR</a>
     </div>
 
+    <!-- QR Scanner -->
     <div id="scanner" class="tab">
       <div id="reader" style="width: 300px; height: 300px;"></div>
       <button onclick="startCamera()">Request Camera Permissions</button>
@@ -39,10 +46,14 @@
       <input type="file" accept="image/*" onchange="decodeImage(event)" />
 
       <p id="scanResult"></p>
+      <a id="previewLink" href="#" target="_blank" style="display: none;">🔍 Preview PDF</a>
       <button id="copyBtn" onclick="copyToClipboard()" style="display: none;">📋 Copy to Clipboard</button>
       <p id="cameraError" style="color: red;"></p>
     </div>
   </div>
+
+  <!-- Toast -->
+  <div id="toast">✅ Link copied to clipboard!</div>
 
   <script src="script.js"></script>
 </body>
