@@ -17,6 +17,7 @@
     </div>
 
     <h1>Scan Forge</h1>
+
     <div class="tabs">
       <button id="generateTabBtn">Generate QR</button>
       <button id="scanTabBtn">Scan QR</button>
@@ -27,11 +28,14 @@
         <option value="text">Text / Link</option>
         <option value="pdf">Upload PDF</option>
       </select>
+
       <input type="text" id="textInput" placeholder="Enter text or URL" />
       <input type="file" id="pdfInput" accept="application/pdf" style="display: none;" />
       <div id="error"></div>
+
       <button onclick="generateQRCode()">Generate QR</button>
       <div id="qrcode"></div>
+
       <a id="downloadBtn" class="button" style="display: none;" download="qrcode.png">Download QR</a>
       <button id="copyBtn" style="display: none;" onclick="copyToClipboard()">Copy Link</button>
     </div>
