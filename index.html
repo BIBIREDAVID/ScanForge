@@ -23,6 +23,7 @@
       <button id="scanTabBtn">Scan QR</button>
     </div>
 
+    <!-- Generate QR Tab -->
     <div id="generateTab" class="tab active-tab">
       <select id="inputType">
         <option value="text">Text / Link</option>
@@ -38,12 +39,6 @@
 
       <a id="downloadBtn" class="button" style="display: none;" download="qrcode.png">Download QR</a>
       <button id="copyBtn" style="display: none;" onclick="copyToClipboard()">Copy Link</button>
-    </div>
-
-    <div id="scanTab" class="tab">
-      <video id="preview" style="width: 100%; border-radius: 8px;"></video>
-      <div id="scanResult"></div>
-      <div id="cameraError"></div>
     </div>
 
     <div id="toast"></div>

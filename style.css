@@ -1,189 +1,42 @@
-/* Base Styles */
+/* Reset & Base */
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f7f9fb;
-  display: flex;
-  justify-content: center;
-  align-items: start;
-  padding: 30px;
   margin: 0;
-  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
-  background-color: white;
-  border-radius: 16px;
-  box-shadow: 8px 8px 20px rgba(85, 85, 85, 0.08);
-  padding: 20px;
-  max-width: 400px;
-  width: 100%;
-  box-sizing: border-box;
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
 }
 
+/* Headings */
 h1 {
   text-align: center;
-  color: #222;
-}
-
-/* Tabs */
-.tabs {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 20px;
-}
-
-.tabs button {
-  padding: 10px 20px;
-  border: none;
-  background-color: #eaeaea;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.tabs button:hover {
-  background-color: #d4d4d4;
-}
-
-/* Forms */
-input[type="text"], select, input[type="file"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-  box-sizing: border-box;
-}
-
-/* Buttons */
-button, a.button {
-  width: 100%;
-  padding: 10px;
-  background-color: #4CAF50;
-  color: white;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-button:hover, a.button:hover {
-  background-color: #45a049;
-}
-
-#downloadBtn, #previewLink {
-  margin-top: 10px;
-  background-color: #008CBA;
-}
-
-#downloadBtn:hover, #previewLink:hover {
-  background-color: #0077a6;
-}
-
-#copyBtn {
-  margin-top: 10px;
-  background-color: #f39c12;
-}
-
-#copyBtn:hover {
-  background-color: #e67e22;
-}
-
-/* Other UI Elements */
-#qrcode, #scanResult {
-  text-align: center;
-  margin-top: 20px;
-}
-
-#error, #cameraError {
-  color: red;
-  font-size: 0.9rem;
-  text-align: center;
-}
-
-/* Toast */
-#toast {
-  visibility: hidden;
-  min-width: 250px;
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  border-radius: 8px;
-  padding: 14px;
-  position: fixed;
-  z-index: 1;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 16px;
-}
-
-#toast.show {
-  visibility: visible;
-  animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
-
-@keyframes fadein {
-  from { bottom: 0; opacity: 0; }
-  to { bottom: 30px; opacity: 1; }
-}
-
-@keyframes fadeout {
-  from { bottom: 30px; opacity: 1; }
-  to { bottom: 0; opacity: 0; }
-}
-
-/* Dark Mode */
-body.dark-mode {
-  background-color: #121212;
-  color: #f5f5f5;
-}
-
-body.dark-mode .container {
-  background-color: #1e1e1e;
-  box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.3);
-}
-
-body.dark-mode input,
-body.dark-mode select {
-  background-color: #2a2a2a;
-  border: 1px solid #444;
-  color: #f5f5f5;
-}
-
-body.dark-mode .tabs button {
-  background-color: #2b2b2b;
-  color: #f0f0f0;
-}
-
-body.dark-mode .tabs button:hover {
-  background-color: #3a3a3a;
+  margin-bottom: 1rem;
 }
 
 /* Theme Toggle */
 .theme-toggle {
   display: flex;
-  align-items: center;
   justify-content: flex-end;
-  margin-bottom: 10px;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
-.theme-toggle span {
-  margin-left: 10px;
-  font-size: 14px;
-}
-
-/* Switch */
+/* Toggle Switch */
 .switch {
   position: relative;
   display: inline-block;
-  width: 44px;
-  height: 24px;
+  width: 40px;
+  height: 22px;
 }
 
 .switch input {
@@ -195,27 +48,165 @@ body.dark-mode .tabs button:hover {
 .slider {
   position: absolute;
   cursor: pointer;
-  top: 0; left: 0; right: 0; bottom: 0;
   background-color: #ccc;
-  transition: .4s;
-  border-radius: 24px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: 0.3s;
+  border-radius: 22px;
 }
 
 .slider:before {
-  position: absolute;
   content: "";
-  height: 18px; width: 18px;
+  position: absolute;
+  height: 16px;
+  width: 16px;
   left: 3px;
   bottom: 3px;
   background-color: white;
-  transition: .4s;
+  transition: 0.3s;
   border-radius: 50%;
 }
 
 input:checked + .slider {
-  background-color: #4CAF50;
+  background-color: #2196f3;
 }
 
 input:checked + .slider:before {
-  transform: translateX(20px);
+  transform: translateX(18px);
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.tabs button {
+  padding: 0.5rem 1.2rem;
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.tabs button:hover {
+  background-color: #d0d0d0;
+}
+
+.tab {
+  display: none;
+}
+
+.tab.active-tab {
+  display: block;
+}
+
+/* Input & Select */
+input[type="text"],
+input[type="file"],
+select {
+  width: 100%;
+  padding: 0.6rem;
+  margin: 0.5rem 0 1rem 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+/* Buttons */
+button,
+.button {
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  margin: 0.3rem 0.5rem 0 0;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover,
+.button:hover {
+  background-color: #1976d2;
+}
+
+/* QR Code Display */
+#qrcode {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+#error {
+  color: red;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+/* Scanner Styles */
+#preview, #reader {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+/* Toast */
+#toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  display: none;
+  z-index: 9999;
+}
+
+/* Dark Theme */
+body.dark-theme {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+body.dark-theme .container {
+  background-color: #1e1e1e;
+}
+
+body.dark-theme .tabs button {
+  background-color: #333;
+  color: #f0f0f0;
+}
+
+body.dark-theme .tabs button:hover {
+  background-color: #444;
+}
+
+body.dark-theme input,
+body.dark-theme select {
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+  border: 1px solid #444;
+}
+
+body.dark-theme button,
+body.dark-theme .button {
+  background-color: #90caf9;
+  color: #000;
+}
+
+body.dark-theme button:hover,
+body.dark-theme .button:hover {
+  background-color: #64b5f6;
 }

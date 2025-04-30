@@ -1,152 +1,156 @@
-// Cloudinary configuration
-const cloudName = "dzygc12dd";
-const uploadPreset = "ScanForge";
-
+const inputType = document.getElementById("inputType");
 const textInput = document.getElementById("textInput");
 const pdfInput = document.getElementById("pdfInput");
-const inputType = document.getElementById("inputType");
 const errorDiv = document.getElementById("error");
-const qrCodeDiv = document.getElementById("qrcode");
+const qrcodeDiv = document.getElementById("qrcode");
 const downloadBtn = document.getElementById("downloadBtn");
 const copyBtn = document.getElementById("copyBtn");
-const toast = document.getElementById("toast");
+let currentURL = "";
 
-// Handle input type change
+// Toggle input field visibility
 inputType.addEventListener("change", () => {
-  const type = inputType.value;
-  textInput.style.display = type === "text" ? "block" : "none";
-  pdfInput.style.display = type === "pdf" ? "block" : "none";
-  resetQRDisplay();
-});
-
-function resetQRDisplay() {
-  qrCodeDiv.innerHTML = "";
+  if (inputType.value === "pdf") {
+    textInput.style.display = "none";
+    pdfInput.style.display = "block";
+  } else {
+    textInput.style.display = "block";
+    pdfInput.style.display = "none";
+  }
   errorDiv.innerText = "";
+  qrcodeDiv.innerHTML = "";
   downloadBtn.style.display = "none";
   copyBtn.style.display = "none";
-}
+});
 
-// Show toast
-function showToast(message) {
-  toast.innerText = message;
-  toast.className = "show";
-  setTimeout(() => toast.className = "", 3000);
-}
-
-// Generate QR Code
 function generateQRCode() {
-  resetQRDisplay();
-  const type = inputType.value;
+  errorDiv.innerText = "";
+  qrcodeDiv.innerHTML = "";
+  downloadBtn.style.display = "none";
+  copyBtn.style.display = "none";
 
-  if (type === "text") {
+  if (inputType.value === "text") {
     const text = textInput.value.trim();
     if (!text) {
-      errorDiv.innerText = "Please enter some text.";
+      errorDiv.innerText = "Please enter a valid text or URL.";
       return;
     }
-    makeQR(text);
-  } else if (type === "pdf") {
+    currentURL = text;
+    createQRCode(text);
+  } else {
     const file = pdfInput.files[0];
     if (!file || file.type !== "application/pdf") {
-      errorDiv.innerText = "Please upload a valid PDF.";
+      errorDiv.innerText = "Please upload a valid PDF file.";
       return;
     }
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", uploadPreset);
+    formData.append("upload_preset", "YOUR_UPLOAD_PRESET"); // replace with your Cloudinary upload preset
+    formData.append("cloud_name", "YOUR_CLOUD_NAME"); // replace with your Cloudinary cloud name
 
-    fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
+    fetch("https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/upload", {
       method: "POST",
-      body: formData
+      body: formData,
     })
-    .then(res => res.json())
-    .then(data => {
-      if (data.secure_url) {
-        makeQR(data.secure_url);
-      } else {
-        errorDiv.innerText = "Upload failed.";
-      }
-    })
-    .catch(() => {
-      errorDiv.innerText = "An error occurred during upload.";
-    });
+      .then(res => res.json())
+      .then(data => {
+        if (data.secure_url) {
+          currentURL = data.secure_url;
+          createQRCode(data.secure_url);
+        } else {
+          errorDiv.innerText = "Upload failed. Try again.";
+        }
+      })
+      .catch(() => {
+        errorDiv.innerText = "An error occurred during upload.";
+      });
   }
 }
 
-// Create QR Code
-function makeQR(data) {
-  new QRCode(qrCodeDiv, {
+function createQRCode(data) {
+  const qr = new QRCode(qrcodeDiv, {
     text: data,
-    width: 200,
-    height: 200
+    width: 256,
+    height: 256,
   });
 
   setTimeout(() => {
-    const qrImg = qrCodeDiv.querySelector("img") || qrCodeDiv.querySelector("canvas");
-    if (qrImg) {
-      const dataUrl = qrImg.src || qrImg.toDataURL("image/png");
-      downloadBtn.href = dataUrl;
+    const img = qrcodeDiv.querySelector("img");
+    if (img) {
+      downloadBtn.href = img.src;
       downloadBtn.style.display = "inline-block";
-      copyBtn.setAttribute("data-copy", data);
-      copyBtn.style.display = "block";
     }
-  }, 300);
+    copyBtn.style.display = "inline-block";
+  }, 500);
 }
 
-// Copy link to clipboard
 function copyToClipboard() {
-  const text = copyBtn.getAttribute("data-copy");
-  navigator.clipboard.writeText(text)
-    .then(() => showToast("Copied to clipboard!"))
-    .catch(() => showToast("Failed to copy."));
+  navigator.clipboard.writeText(currentURL).then(() => {
+    showToast("Link copied to clipboard!");
+  });
 }
 
-// Tab Switching
-document.getElementById("generateTabBtn").onclick = () => {
-  document.getElementById("generateTab").classList.add("active-tab");
-  document.getElementById("scanTab").classList.remove("active-tab");
-};
-
-document.getElementById("scanTabBtn").onclick = () => {
-  document.getElementById("generateTab").classList.remove("active-tab");
-  document.getElementById("scanTab").classList.add("active-tab");
-  startScanner();
-};
+// Toast
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.innerText = message;
+  toast.className = "show";
+  setTimeout(() => {
+    toast.className = toast.className.replace("show", "");
+  }, 3000);
+}
 
 // Dark mode toggle
-document.getElementById("themeToggle").addEventListener("change", (e) => {
-  document.body.classList.toggle("dark-mode", e.target.checked);
+const themeToggle = document.getElementById("themeToggle");
+themeToggle.addEventListener("change", () => {
+  document.body.classList.toggle("dark-mode", themeToggle.checked);
+});
+
+// Tab switching
+document.getElementById("scanTabBtn").addEventListener("click", () => {
+  document.getElementById("generateTab").classList.remove("active-tab");
+  document.getElementById("scanTab").classList.add("active-tab");
+  startQRScanner();
+});
+
+document.getElementById("generateTabBtn").addEventListener("click", () => {
+  document.getElementById("scanTab").classList.remove("active-tab");
+  document.getElementById("generateTab").classList.add("active-tab");
 });
 
 // QR Scanner
-let scanner;
-function startScanner() {
-  const resultDiv = document.getElementById("scanResult");
-  const errorDiv = document.getElementById("cameraError");
+function startQRScanner() {
+  const scanRegion = document.getElementById('preview');
+  const resultContainer = document.getElementById('scanResult');
+  const cameraError = document.getElementById('cameraError');
+  resultContainer.innerHTML = '';
+  cameraError.innerHTML = '';
 
-  if (scanner) return;
+  const html5QrCode = new Html5Qrcode("preview");
 
-  scanner = new Html5Qrcode("preview");
-  Html5Qrcode.getCameras()
-    .then(devices => {
-      if (devices.length) {
-        scanner.start(
-          devices[0].id,
-          { fps: 10, qrbox: 250 },
-          qrCodeMessage => {
-            resultDiv.innerHTML = `<p>Scanned: <a href="${qrCodeMessage}" target="_blank">${qrCodeMessage}</a></p>`;
-            scanner.stop();
-            scanner.clear();
-            scanner = null;
-          },
-          error => console.log("Scan error:", error)
-        );
-      } else {
-        errorDiv.innerText = "No camera found.";
-      }
-    })
-    .catch(() => {
-      errorDiv.innerText = "Camera access denied.";
-    });
+  Html5Qrcode.getCameras().then(cameras => {
+    if (cameras && cameras.length) {
+      const cameraId = cameras[0].id;
+      html5QrCode.start(
+        cameraId,
+        {
+          fps: 10,
+          qrbox: { width: 250, height: 250 }
+        },
+        qrCodeMessage => {
+          resultContainer.innerHTML = `Scanned: <a href="${qrCodeMessage}" target="_blank">${qrCodeMessage}</a>`;
+          html5QrCode.stop();
+        },
+        errorMessage => {
+          // Ignore scan errors
+        }
+      ).catch(err => {
+        cameraError.innerText = "Failed to start camera: " + err;
+      });
+    } else {
+      cameraError.innerText = "No camera found.";
+    }
+  }).catch(err => {
+    cameraError.innerText = "Camera access error: " + err;
+  });
 }
